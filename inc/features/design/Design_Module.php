@@ -34,6 +34,5 @@ class Design_Module implements Module {
 	}
 
 	public function boot(): void {
-		Design_Customizer::boot();
 	}
 }

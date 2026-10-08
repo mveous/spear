@@ -1,6 +1,6 @@
 <?php
 /**
- * WooCommerce_Customizer — real Free settings plus a locked Pro card
+ * WooCommerce_Customizer — real Free settings
  * (spec §32-style pattern, same as Footer_Customizer/Blog_Customizer).
  *
  * @package Spear
@@ -8,7 +8,6 @@
 
 namespace Spear\Features\WooCommerce;
 
-use Spear\Admin\Customize\Locked_Control;
 use WP_Customize_Manager;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -67,10 +66,6 @@ class WooCommerce_Customizer {
 				'input_attrs' => [ 'min' => 4, 'max' => 48, 'step' => 4 ],
 			]
 		);
-
-		if ( ! spear_has_feature( 'advanced_woocommerce' ) ) {
-			Locked_Control::add( $wp_customize, 'spear_woocommerce', 'advanced_woocommerce' );
-		}
 	}
 
 	public static function sanitize_columns( $value ): int {

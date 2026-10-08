@@ -35,6 +35,5 @@ class Layout_Module implements Module {
 	}
 
 	public function boot(): void {
-		Layout_Customizer::boot();
 	}
 }

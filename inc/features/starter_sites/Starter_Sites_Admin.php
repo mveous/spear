@@ -2,8 +2,7 @@
 /**
  * Starter_Sites_Admin — the Appearance > Starter Sites wp-admin screen.
  * A wp-api-fetch page talking to Starter_Sites_REST_Controller — fetches
- * the catalog from GET /spear/v1/starter-sites (locked Pro entries included with
- * `locked: true`, per 10-rest-api.md) and imports via
+ * the catalog from GET /spear/v1/starter-sites and imports via
  * POST /spear/v1/starter-sites/{id}/import.
  *
  * @package Spear
@@ -41,11 +40,6 @@ class Starter_Sites_Admin {
 
 		wp_enqueue_script( 'wp-api-fetch' );
 		wp_register_script( 'spear-starter-sites-admin', false, [ 'wp-api-fetch' ], SPEAR_VERSION, true );
-		wp_add_inline_script(
-			'spear-starter-sites-admin',
-			'window.spearUpgradeUrl = ' . wp_json_encode( spear_get_upgrade_url( 'starter_sites' ) ) . ';',
-			'before'
-		);
 		wp_enqueue_script( 'spear-starter-sites-admin' );
 		wp_add_inline_script( 'spear-starter-sites-admin', self::inline_script() );
 	}
@@ -83,9 +77,7 @@ class Starter_Sites_Admin {
 		var card = document.createElement( 'div' );
 		card.style.cssText = 'border:1px solid #dcdcde;border-radius:4px;padding:16px;background:#fff;';
 
-		var actionHtml = site.locked
-			? '<p><em>' + escapeHtml( 'Available with Spear Pro.' ) + '</em> <a href="' + escapeHtml( window.spearUpgradeUrl ) + '">' + escapeHtml( 'Upgrade to Pro' ) + '</a></p>'
-			: '<button type="button" class="button button-primary" data-site-id="' + escapeHtml( site.id ) + '">' + escapeHtml( 'Import' ) + '</button>';
+		var actionHtml = '<button type="button" class="button button-primary" data-site-id="' + escapeHtml( site.id ) + '">' + escapeHtml( 'Import' ) + '</button>';
 
 		card.innerHTML = '<h2 style="margin-top:0;">' + escapeHtml( site.name ) + '</h2>'
 			+ '<p>' + escapeHtml( site.description ) + '</p>'

@@ -58,27 +58,23 @@ class Starter_Sites_REST_Controller {
 	}
 
 	/**
-	 * Locked entries are included so the catalog UI can show what Pro
-	 * unlocks, but never with their `pages` payload — "no import payload
-	 * until unlocked" (10-rest-api.md).
+	 * Only importable (free) starter sites are listed.
 	 */
 	public static function index(): WP_REST_Response {
 		$catalog = [];
 
 		foreach ( Starter_Site_Registry::all() as $site ) {
-			$locked = ! Starter_Sites_Importer::is_importable( $site );
+			if ( ! Starter_Sites_Importer::is_importable( $site ) ) {
+				continue;
+			}
 
 			$entry = [
 				'id'          => $site['id'] ?? '',
 				'name'        => $site['name'] ?? '',
 				'description' => $site['description'] ?? '',
 				'plan'        => $site['plan'] ?? 'free',
-				'locked'      => $locked,
+				'pages'       => $site['pages'] ?? [],
 			];
-
-			if ( ! $locked ) {
-				$entry['pages'] = $site['pages'] ?? [];
-			}
 
 			$catalog[] = $entry;
 		}
@@ -95,7 +91,7 @@ class Starter_Sites_REST_Controller {
 		}
 
 		if ( ! Starter_Sites_Importer::is_importable( $site ) ) {
-			return new WP_Error( 'spear_feature_not_entitled', __( 'This starter site requires Spear Pro.', 'spear' ), [ 'status' => 403 ] );
+			return new WP_Error( 'spear_feature_not_entitled', __( 'This starter site is not available.', 'spear' ), [ 'status' => 403 ] );
 		}
 
 		$front_page_id = Starter_Sites_Importer::import( $site );

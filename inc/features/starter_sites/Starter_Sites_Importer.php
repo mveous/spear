@@ -70,6 +70,17 @@ class Starter_Sites_Importer {
 
 		$pattern = WP_Block_Patterns_Registry::get_instance()->get_registered( $pattern_name );
 
-		return $pattern['content'] ?? null;
+		if ( ! empty( $pattern['content'] ) ) {
+			return $pattern['content'];
+		}
+
+		// Theme pattern files may be registered lazily with only a path.
+		if ( ! empty( $pattern['filePath'] ) && is_readable( $pattern['filePath'] ) ) {
+			ob_start();
+			include $pattern['filePath'];
+			return ob_get_clean();
+		}
+
+		return null;
 	}
 }

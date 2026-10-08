@@ -13,7 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use Spear\Admin\Components\Pro_Feature_Lock;
 use Spear\Core\Design_Tokens;
 use Spear\Core\Feature_Registry;
 use Spear\Core\Module_Manager;
@@ -50,9 +49,8 @@ Theme_Setup::boot();
 
 // Spear Free has no license/entitlement system — every 'pro' feature in
 // the registry permanently resolves to false (Feature_Manager::has_feature()),
-// which is exactly what makes the locked Pro cards render everywhere they
-// already do. Spear Pro is a separate theme package, not a license unlock
-// of this one (docs/architecture/03-free-pro-and-licensing.md).
+// so Pro-only features are simply absent from this theme
+// (docs/architecture/03-free-pro-and-licensing.md).
 Theme_REST_Controller::boot();
 
 add_action(
@@ -94,4 +92,3 @@ add_action(
 
 add_action( 'wp_enqueue_scripts', [ Design_Tokens::class, 'enqueue' ] );
 add_action( 'enqueue_block_editor_assets', [ Design_Tokens::class, 'enqueue' ] );
-add_action( 'customize_controls_enqueue_scripts', [ Pro_Feature_Lock::class, 'enqueue_styles' ] );

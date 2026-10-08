@@ -87,14 +87,12 @@ class Module_Manager {
 
 		foreach ( $module->dependencies() as $dependency_id ) {
 			if ( ! isset( $this->modules[ $dependency_id ] ) || ! $this->boot( $this->modules[ $dependency_id ] ) ) {
-				$this->log_skip( $id, sprintf( 'unmet dependency "%s"', $dependency_id ) );
 				return false;
 			}
 		}
 
 		$required_feature = $module->required_feature();
 		if ( $required_feature && ! Feature_Manager::instance()->has_feature( $required_feature ) ) {
-			$this->log_skip( $id, sprintf( 'feature "%s" not entitled', $required_feature ) );
 			return false;
 		}
 
@@ -102,11 +100,5 @@ class Module_Manager {
 		$this->booted[ $id ] = true;
 
 		return true;
-	}
-
-	private function log_skip( string $module_id, string $reason ): void {
-		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-			error_log( sprintf( 'Spear: module "%s" skipped — %s.', $module_id, $reason ) );
-		}
 	}
 }

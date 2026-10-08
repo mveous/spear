@@ -1,13 +1,12 @@
 <?php
 /**
- * Blog_Customizer — real Free settings plus a locked Pro card (spec §33).
+ * Blog_Customizer — real Free settings (spec §33).
  *
  * @package Spear
  */
 
 namespace Spear\Features\Blog;
 
-use Spear\Admin\Customize\Locked_Control;
 use WP_Customize_Manager;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -84,21 +83,6 @@ class Blog_Customizer {
 				'label'   => __( 'Show post date in blog listing', 'spear' ),
 			]
 		);
-
-		$wp_customize->add_section(
-			'spear_blog_pro',
-			[
-				'title'       => __( 'Blog — Pro Features', 'spear' ),
-				'priority'    => 35,
-				'description' => __( 'Available with Spear Pro.', 'spear' ),
-			]
-		);
-
-		// Entitled sites get the real control from Advanced_Blog_Customizer
-		// instead (registered in the main 'spear_blog' section, not here).
-		if ( ! spear_has_feature( 'advanced_blog' ) ) {
-			Locked_Control::add( $wp_customize, 'spear_blog_pro', 'advanced_blog' );
-		}
 	}
 
 	public static function sanitize_excerpt_length( $value ): int {

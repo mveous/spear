@@ -1,13 +1,12 @@
 <?php
 /**
- * Footer_Customizer — real Free settings plus a locked Pro card (spec §32).
+ * Footer_Customizer — real Free settings (spec §32).
  *
  * @package Spear
  */
 
 namespace Spear\Features\Footer;
 
-use Spear\Admin\Customize\Locked_Control;
 use WP_Customize_Manager;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -69,21 +68,6 @@ class Footer_Customizer {
 				],
 			]
 		);
-
-		$wp_customize->add_section(
-			'spear_footer_pro',
-			[
-				'title'       => __( 'Footer — Pro Features', 'spear' ),
-				'priority'    => 33,
-				'description' => __( 'Available with Spear Pro.', 'spear' ),
-			]
-		);
-
-		// Entitled sites get the real control from Advanced_Footer_Customizer
-		// instead (registered in the main 'spear_footer' section, not here).
-		if ( ! spear_has_feature( 'advanced_footer' ) ) {
-			Locked_Control::add( $wp_customize, 'spear_footer_pro', 'advanced_footer' );
-		}
 	}
 
 	public static function sanitize_layout( string $value ): string {

@@ -38,6 +38,5 @@ class Typography_Module implements Module {
 	}
 
 	public function boot(): void {
-		Typography_Customizer::boot();
 	}
 }

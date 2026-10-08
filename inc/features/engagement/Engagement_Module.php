@@ -34,6 +34,5 @@ class Engagement_Module implements Module {
 	}
 
 	public function boot(): void {
-		Engagement_Customizer::boot();
 	}
 }

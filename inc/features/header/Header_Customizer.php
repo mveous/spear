@@ -1,13 +1,12 @@
 <?php
 /**
- * Header_Customizer — real Free settings plus locked Pro cards (spec §31).
+ * Header_Customizer — real Free settings plus Free settings (spec §31).
  *
  * @package Spear
  */
 
 namespace Spear\Features\Header;
 
-use Spear\Admin\Customize\Locked_Control;
 use WP_Customize_Manager;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -15,14 +14,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Header_Customizer {
-
-	const LOCKED_FEATURES = [
-		'sticky_header',
-		'transparent_header',
-		'mega_menu',
-		'advanced_header',
-		'header_layouts',
-	];
 
 	public static function boot(): void {
 		add_action( 'customize_register', [ __CLASS__, 'register' ] );
@@ -78,26 +69,6 @@ class Header_Customizer {
 				],
 			]
 		);
-
-		$wp_customize->add_section(
-			'spear_header_pro',
-			[
-				'title'       => __( 'Header — Pro Features', 'spear' ),
-				'priority'    => 31,
-				'description' => __( 'Available with Spear Pro.', 'spear' ),
-			]
-		);
-
-		foreach ( self::LOCKED_FEATURES as $feature_id ) {
-			// Entitled features get their real control from their own Pro
-			// module instead (registered in the main 'spear_header'
-			// section, not here) — see inc/pro/header/Sticky_Header_Customizer.php
-			// for the reference implementation.
-			if ( spear_has_feature( $feature_id ) ) {
-				continue;
-			}
-			Locked_Control::add( $wp_customize, 'spear_header_pro', $feature_id );
-		}
 	}
 
 	public static function sanitize_layout( string $value ): string {
