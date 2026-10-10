@@ -1,5 +1,5 @@
 === Spear ===
-Contributors: spear
+Contributors: deep7197, mveous
 Tags: full-site-editing, block-patterns, custom-colors, custom-menu, e-commerce, blog, translation-ready
 Requires at least: 6.4
 Tested up to: 6.7
